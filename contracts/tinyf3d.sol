@@ -1311,6 +1311,25 @@ contract TinyF3D {
 
         return (_eventData_);
     }
+    
+    // 少这个
+    function getBuyPrice()
+    public 
+    view 
+    returns(uint256)
+    {  
+        // setup local rID
+        uint256 _rID = rID_;
+        
+        // grab time
+        uint256 _now = now;
+        
+        // are we in a round?
+        if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))
+            return ( (round_[_rID].keys.add(1000000000000000000)).ethRec(1000000000000000000) );
+        else // rounds over.  need price for new round
+            return ( 75000000000000 ); // init
+    }
 
     // 副奖池
     function potSwap()
